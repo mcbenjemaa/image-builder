@@ -177,6 +177,15 @@ deps-nutanix:
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/nutanix/config.pkr.hcl
 
+.PHONY: deps-proxmox
+deps-proxmox: ## Installs/checks dependencies for Proxmox builds
+deps-proxmox:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
+	hack/ensure-goss.sh
+	$(PACKER) init packer/config.pkr.hcl
+	$(PACKER) init packer/proxmox/config.pkr.hcl
+
 .PHONY: deps-release
 deps-release: ## Installs/checks dependencies for project releases
 	hack/ensure-go.sh
@@ -377,6 +386,8 @@ POWERVS_BUILD_NAMES         ?= powervs-centos-8
 
 NUTANIX_BUILD_NAMES ?= nutanix-ubuntu-2004 nutanix-ubuntu-2204 nutanix-rhel-8 nutanix-rhel-9 nutanix-rockylinux-8 nutanix-rockylinux-9 nutanix-flatcar nutanix-windows-2022
 
+PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204
+
 ## --------------------------------------
 ## Dynamic build targets
 ## --------------------------------------
@@ -419,6 +430,8 @@ POWERVS_BUILD_TARGETS      := $(addprefix build-,$(POWERVS_BUILD_NAMES))
 POWERVS_VALIDATE_TARGETS   := $(addprefix validate-,$(POWERVS_BUILD_NAMES))
 NUTANIX_BUILD_TARGETS		:= $(addprefix build-,$(NUTANIX_BUILD_NAMES))
 NUTANIX_VALIDATE_TARGETS	:= $(addprefix validate-,$(NUTANIX_BUILD_NAMES))
+PROXMOX_BUILD_TARGETS		:= $(addprefix build-,$(PROXMOX_BUILD_NAMES))
+PROXMOX_VALIDATE_TARGETS	:= $(addprefix validate-,$(PROXMOX_BUILD_NAMES))
 
 .PHONY: $(NODE_OVA_LOCAL_BUILD_TARGETS)
 $(NODE_OVA_LOCAL_BUILD_TARGETS): deps-ova
@@ -583,6 +596,15 @@ $(NUTANIX_BUILD_TARGETS): deps-nutanix
 .PHONY: $(NUTANIX_VALIDATE_TARGETS)
 $(NUTANIX_VALIDATE_TARGETS): deps-nutanix
 	$(PACKER) validate $(if $(findstring windows,$@),$(PACKER_WINDOWS_NODE_FLAGS),$(PACKER_NODE_FLAGS)) -var-file="packer/nutanix/nutanix.json" -var-file="$(abspath packer/nutanix/$(subst validate-nutanix-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/nutanix/packer$(if $(findstring windows,$@),-windows,).json
+
+
+.PHONY: $(PROXMOX_BUILD_TARGETS)
+$(PROXMOX_BUILD_TARGETS): deps-proxmox
+	$(PACKER) build $(PACKER_NODE_FLAGS) -var-file="$(abspath packer/proxmox/$(subst build-proxmox-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/proxmox/packer.json
+
+.PHONY: $(PROXMOX_VALIDATE_TARGETS)
+$(PROXMOX_VALIDATE_TARGETS): deps-proxmox
+	$(PACKER) validate $(PACKER_NODE_FLAGS) -var-file="$(abspath packer/proxmox/$(subst validate-proxmox-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/proxmox/packer.json
 
 ## --------------------------------------
 ## Dynamic clean targets
@@ -773,6 +795,8 @@ build-nutanix-flatcar: ## Builds the Nutanix Flatcar image
 build-nutanix-windows-2022: ## Builds the Nutanix Windows 2022 image
 build-nutanix-all: $(NUTANIX_BUILD_TARGETS) ## Builds all Nutanix image
 
+build-proxmox-ubuntu-2204: ## Builds the Proxmox ubuntu-2204 image
+
 ## --------------------------------------
 ## Document dynamic validate targets
 ## --------------------------------------
@@ -900,6 +924,8 @@ validate-nutanix-rockylinux-9: ## Validates Rocky Linux 9 Nutanix Packer config
 validate-nutanix-flatcar: ## Validates the Nutanix Flatcar Nutanix Packer config
 validate-nutanix-windows-2022: ## Validates Windows Server 2022 Nutanix Packer config
 validate-nutanix-all: $(NUTANIX_VALIDATE_TARGETS) ## Validates all Nutanix Packer config
+
+validate-proxmox-ubuntu-2204: ## Validates Ubuntu 22.04 Proxmox Packer config
 
 validate-all: validate-ami-all \
 	validate-azure-all \
