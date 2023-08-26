@@ -7,6 +7,7 @@
             "name": "{{user `build_name`}}",
             "boot_command": [
                 "{{user `boot_command_prefix`}}",
+                "{{user `boot_media_path`}}",
                 "{{user `boot_command_suffix`}}"
             ],
             "http_directory": "{{user `http_directory`}}",
@@ -182,7 +183,7 @@
         "crictl_url": "https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{user `crictl_version`}}/crictl-v{{user `crictl_version`}}-linux-amd64.tar.gz",
         "crictl_version": null,
         "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
-        "http_directory": "./packer/proxmox/linux/{{user `distro_name`}}/http/{{user `version`}}",
+        "http_directory": "./packer/proxmox/linux/{{user `distro_name`}}/http/",
         "kubernetes_cni_deb_version": null,
         "kubernetes_cni_http_source": null,
         "kubernetes_cni_rpm_version": null,
