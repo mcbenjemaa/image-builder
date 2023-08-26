@@ -25,6 +25,14 @@ autoinstall:
   locale: en_US.UTF-8
   keyboard:
     layout: us
+  network:
+    version: 2
+    ethernets:
+      eth0:
+        match:
+          name: en*
+        dhcp4: yes
+        dhcp6: yes
   # Create a single-partition with no swap space. Kubernetes
   # really dislikes the idea of anyone else managing memory.
   # For more information on how partitioning is configured,
