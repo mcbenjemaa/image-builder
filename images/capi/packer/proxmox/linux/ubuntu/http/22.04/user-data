@@ -30,32 +30,10 @@ autoinstall:
   # For more information on how partitioning is configured,
   # please refer to https://curtin.readthedocs.io/en/latest/topics/storage.html.
   storage:
-    grub:
-      replace_linux_default: false
-    config:
-      - type: disk
-        id: disk-0
-        size: largest
-        grub_device: true
-        preserve: false
-        ptable: msdos
-        wipe: superblock
-      - type: partition
-        id: partition-0
-        device: disk-0
-        size: -1
-        number: 1
-        preserve: false
-        flag: boot
-      - type: format
-        id: format-0
-        volume: partition-0
-        fstype: ext4
-        preserve: false
-      - type: mount
-        id: mount-0
-        device: format-0
-        path: /
+    layout:
+      name: direct
+    swap:
+      size: 0
   updates: 'all'
   ssh:
     install-server: true
