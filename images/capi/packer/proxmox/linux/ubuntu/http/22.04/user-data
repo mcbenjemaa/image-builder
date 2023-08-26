@@ -60,6 +60,8 @@ autoinstall:
   ssh:
     install-server: true
     allow-pw: true
+  packages:
+    - qemu-guest-agent
   # Create the default user.
   # Ensures the "builder" user doesn't require a password to use sudo.
   user-data:
