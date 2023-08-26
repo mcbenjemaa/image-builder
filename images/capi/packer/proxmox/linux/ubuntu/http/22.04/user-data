@@ -29,8 +29,6 @@ autoinstall:
     version: 2
     ethernets:
       eth0:
-        match:
-          name: en*
         dhcp4: yes
         dhcp6: yes
   # Create a single-partition with no swap space. Kubernetes
