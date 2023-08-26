@@ -35,6 +35,7 @@
             ],
             "disks": [
                 {
+                    "type": "scsi",
                     "disk_size": "{{user `disk_size`}}",
                     "storage_pool": "{{user `storage_pool`}}",
                     "storage_pool_type": "{{user `storage_pool_type`}}",
@@ -164,7 +165,8 @@
         "memory": "2048",
         "cores": "2",
         "disk_size": "20G",
-        "storage_pool": "local",
+        "storage_pool": "local-lvm",
+        "storage_pool_type": "lvm",
         "bridge": "{{env `PROXMOX_BRIDGE`}}",
         "vmid": "",
         "static_ip": "10.6.9.111/24",
@@ -176,7 +178,7 @@
         "ansible_user_vars": "",
         "artifact_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
         "boot_media_path": "http://{{ .HTTPIP }}:{{ .HTTPPort }}",
-        "boot_wait": "10s",
+        "boot_wait": "5s",
         "ansible_scp_extra_args": "",
         "build_timestamp": "{{timestamp}}",
         "containerd_sha256": null,
