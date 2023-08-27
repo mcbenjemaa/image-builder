@@ -166,7 +166,7 @@
         "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python3",
         "ansible_user_vars": "",
         "artifact_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
-        "boot_wait": "5s",
+        "boot_wait": "10s",
         "ansible_scp_extra_args": "",
         "build_timestamp": "{{timestamp}}",
         "containerd_sha256": null,
