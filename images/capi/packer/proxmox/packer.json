@@ -27,7 +27,6 @@
             "ssh_timeout": "2h",
             "ssh_username": "{{user `ssh_username`}}",
             "vm_id": "{{user `vmid`}}",
-            "boot": "order=ide2;scsi0;net0",
             "network_adapters": [
                 {
                     "bridge": "{{user `bridge`}}",
