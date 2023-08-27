@@ -25,12 +25,11 @@ autoinstall:
   locale: en_US.UTF-8
   keyboard:
     layout: us
-  network:
-    version: 2
-    ethernets:
-      enp0s31f6:
-        dhcp4: yes
-        dhcp6: yes
+  ssh:
+    install-server: true
+    allow-pw: true
+  packages:
+    - qemu-guest-agent
   # Create a single-partition with no swap space. Kubernetes
   # really dislikes the idea of anyone else managing memory.
   # For more information on how partitioning is configured,
@@ -40,12 +39,8 @@ autoinstall:
       name: direct
     swap:
       size: 0
-  updates: 'all'
-  ssh:
-    install-server: true
-    allow-pw: true
-  packages:
-    - qemu-guest-agent
+#  updates: 'all'
+
   # Create the default user.
   # Ensures the "builder" user doesn't require a password to use sudo.
   user-data:
