@@ -6,16 +6,14 @@
             "node": "{{ user `node` }}",
             "name": "{{user `build_name`}}",
             "boot_command": [
-                "c",
-                "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/22.04/'",
-                "<enter><wait>",
-                "initrd /casper/initrd <enter><wait>",
-                "boot<enter>"
+                "{{user `boot_command_prefix`}}",
+                "{{user `boot_media_path`}}",
+                "{{user `boot_command_suffix`}}"
             ],
             "http_directory": "{{user `http_directory`}}",
             "boot_wait": "{{user `boot_wait`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
-            "iso_file": "{{user `iso_file`}}",
+            "iso_url": "{{user `iso_url`}}",
             "iso_storage_pool": "{{user `iso_storage_pool`}}",
             "cpu_type": "{{user `cpu_type`}}",
             "memory": "{{user `memory`}}",
