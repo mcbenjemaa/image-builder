@@ -18,7 +18,6 @@
             "iso_checksum": "{{user `iso_checksum`}}",
             "iso_file": "{{user `iso_file`}}",
             "iso_storage_pool": "{{user `iso_storage_pool`}}",
-            "scsi_controller": "virtio-scsi-pci",
             "cpu_type": "{{user `cpu_type`}}",
             "memory": "{{user `memory`}}",
             "cores": "{{user `cores`}}",
@@ -29,8 +28,7 @@
             "vm_id": "{{user `vmid`}}",
             "network_adapters": [
                 {
-                    "bridge": "{{user `bridge`}}",
-                    "model": "virtio"
+                    "bridge": "{{user `bridge`}}"
                 }
             ],
             "disks": [
@@ -41,15 +39,7 @@
                     "storage_pool_type": "{{user `storage_pool_type`}}"
                 }
             ],
-            "vga": {
-                "type": "virtio"
-            },
-            "serials": [
-                "socket"
-            ],
-            "machine": "q35",
             "insecure_skip_tls_verify": true,
-            "os": "l26",
             "type": "proxmox-iso",
             "unmount_iso": "{{user `unmount_iso`}}"
         }
@@ -163,6 +153,7 @@
         "iso_storage_pool": "{{env `PROXMOX_ISO_POOL`}}",
         "memory": "2048",
         "cores": "2",
+        "sockets": "2",
         "disk_size": "20G",
         "storage_pool": "local-lvm",
         "storage_pool_type": "lvm",
