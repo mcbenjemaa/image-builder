@@ -44,6 +44,8 @@ autoinstall:
   # Create the default user.
   # Ensures the "builder" user doesn't require a password to use sudo.
   user-data:
+    package_upgrade: true
+    timezone: Europe/Berlin
     users:
       - name: builder
         # openssl passwd -6 -stdin <<< builder
